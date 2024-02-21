@@ -51,10 +51,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'blango.urls'
 
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,6 +74,7 @@ WSGI_APPLICATION = 'blango.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
