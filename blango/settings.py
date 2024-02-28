@@ -152,8 +152,31 @@ class Dev(Configuration):
       'django.contrib.auth.hashers.PBKDF2PasswordHasher',
       'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
       'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-  ]
+    ]
     
+    # CACHES = {
+    #     "default": {
+    #         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+    #         "LOCATION"": "127.0.0.1:11211",
+    # }
+    # }
+
+
+#     CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+#         "LOCATION": "/var/tmp/django_cache",
+#     }
+# }
+
+    
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "unique-snowflake",
+        }
+    }
+
 
     LOGGING = {
     "version": 1,
