@@ -39,6 +39,7 @@ class Dev(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'blango_auth',
         'blog',
         'crispy_forms',
         'crispy_bootstrap5',
@@ -86,7 +87,8 @@ class Dev(Configuration):
     # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-    
+    AUTH_USER_MODEL = "blango_auth.User"
+
     # DATABASES = values.DatabaseURLValue(f"sqlite:///{BASE_DIR}/db.sqlite3") 
     DATABASES = {
     "default": dj_database_url.config(default=f"sqlite:///{BASE_DIR}/db.sqlite3"),
@@ -94,7 +96,9 @@ class Dev(Configuration):
         "ALTERNATIVE_DATABASE_URL",
         default=f"sqlite:///{BASE_DIR}/alternative_db.sqlite3",
     ),
-}
+    }
+
+
 
     # Password validation
     # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

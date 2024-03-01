@@ -6,6 +6,7 @@
         <h5>Posted by {{ comment.creator }} at {{ comment.created_at|date:"M, d Y h:i" }}</h5>
     {% endcol %}
 {% endrow %}
+
 {% row "border-bottom" %}
     {% col %}
         <p>{{ comment.content }}</p>
