@@ -19,10 +19,25 @@ import debug_toolbar
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
+from django_registration.backends.one_step.views import RegistrationView
 
+from blango_auth import views
+from blango_auth.forms import BlangoRegistrationForm
+
+
+class BlangoRegistrationView(RegistrationView):
+    form_class = BlangoRegistrationForm
 
 urlpatterns = [
     path('', include('blog.urls')),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("accounts/", include("django_registration.backends.activation.urls")),
+    path(
+      "accounts/register/",
+      BlangoRegistrationView.as_view(),
+      name="django_registration_register",
+    ),
+    path("accounts/profile/", views.profile, name="profile"),
     path('admin/', admin.site.urls),
 ]
 

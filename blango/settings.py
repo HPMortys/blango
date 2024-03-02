@@ -34,6 +34,7 @@ class Dev(Configuration):
 
     INSTALLED_APPS = [
         'django.contrib.admin',
+        'debug_toolbar',
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sessions',
@@ -43,8 +44,10 @@ class Dev(Configuration):
         'blog',
         'crispy_forms',
         'crispy_bootstrap5',
-        'debug_toolbar',
+        'django_registration'
+        
     ]
+    
 
     MIDDLEWARE = [
         "debug_toolbar.middleware.DebugToolbarMiddleware",
@@ -118,6 +121,15 @@ class Dev(Configuration):
         },
     ]
 
+    DJANGO_REGISTRATION = {
+      'REGISTRATION_FORM': 'blango_auth.forms.RegistrationForm',
+    }
+  
+  
+    ACCOUNT_ACTIVATION_DAYS = 7
+  
+
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
     # Internationalization
     # https://docs.djangoproject.com/en/3.2/topics/i18n/
