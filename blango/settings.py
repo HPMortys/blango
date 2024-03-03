@@ -39,15 +39,27 @@ class Dev(Configuration):
         'django.contrib.contenttypes',
         'django.contrib.sessions',
         'django.contrib.messages',
+        'django.contrib.sites',
         'django.contrib.staticfiles',
         'blango_auth',
         'blog',
         'crispy_forms',
         'crispy_bootstrap5',
-        'django_registration'
+        'django_registration',
+        "allauth", 
+        "allauth.account", 
+        "allauth.socialaccount", 
+        "allauth.socialaccount.providers.google",
         
     ]
-    
+
+    SITE_ID = 1
+
+    ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_USERNAME_REQUIRED = False
+    ACCOUNT_AUTHENTICATION_METHOD = "email"
+
 
     MIDDLEWARE = [
         "debug_toolbar.middleware.DebugToolbarMiddleware",
@@ -121,13 +133,19 @@ class Dev(Configuration):
         },
     ]
 
+
+    REGISTRATION_FORM = 'blango_auth.forms.BlangoRegistrationForm'
+
     DJANGO_REGISTRATION = {
-      'REGISTRATION_FORM': 'blango_auth.forms.RegistrationForm',
+      'REGISTRATION_FORM': 'blango_auth.forms.BlangoRegistrationForm',
     }
-  
+
+
+    ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
   
     ACCOUNT_ACTIVATION_DAYS = 7
-  
+
+    SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = 'https://analyzedavid-creditchant-8000.codio.io/accounts/google/login/callback/'
 
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 

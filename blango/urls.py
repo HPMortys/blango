@@ -31,12 +31,13 @@ class BlangoRegistrationView(RegistrationView):
 urlpatterns = [
     path('', include('blog.urls')),
     path("accounts/", include("django.contrib.auth.urls")),
-    path("accounts/", include("django_registration.backends.activation.urls")),
+    path("accounts/", include("allauth.urls")),
     path(
       "accounts/register/",
       BlangoRegistrationView.as_view(),
       name="django_registration_register",
     ),
+    path("accounts/", include("django_registration.backends.activation.urls")),
     path("accounts/profile/", views.profile, name="profile"),
     path('admin/', admin.site.urls),
 ]
