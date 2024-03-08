@@ -42,6 +42,8 @@ class Post(models.Model):
     content = models.TextField()
     tags = models.ManyToManyField(Tag, related_name="posts")
 
+    slug = models.SlugField(unique=True)
+
     # comments 
     comments = GenericRelation(Comment)
 
