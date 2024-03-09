@@ -41,6 +41,7 @@ class Dev(Configuration):
         'django.contrib.messages',
         'django.contrib.sites',
         'django.contrib.staticfiles',
+        "rest_framework",
         'blango_auth',
         'blog',
         'crispy_forms',
@@ -50,7 +51,6 @@ class Dev(Configuration):
         "allauth.account", 
         "allauth.socialaccount", 
         "allauth.socialaccount.providers.google",
-        
     ]
 
     SITE_ID = 1
