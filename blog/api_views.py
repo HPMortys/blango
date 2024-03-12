@@ -6,6 +6,9 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
+from rest_framework.decorators import api_view 
+from rest_framework.response import Response
+
 from blog.models import Post
 from blog.api.serializers import PostSerializer
 
@@ -24,38 +27,48 @@ from blog.api.serializers import PostSerializer
 
 
 @csrf_exempt
-def post_list(request):
+@api_view(["GET", "POST"])
+def post_list(request, format=None):
     if request.method == "GET":
         posts = Post.objects.all()
         posts_as_dict = PostSerializer(posts, many=True).data
-        return JsonResponse({"data": posts_as_dict})
+        return Response({"data": posts_as_dict})
     elif request.method == "POST":
-        post_data = json.loads(request.body)
-        serializer = PostSerializer(data=post_data)
+        # post_data = json.loads(request.body)
+        serializer = PostSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         post = serializer.save()
-        return HttpResponse(
-            status=HTTPStatus.CREATED,
-            headers={"Location": reverse("api_post_detail", args=(post.pk,))},
+        return Response(
+          status=HTTPStatus.CREATED,
+          headers={"Location": reverse("api_post_detail", args=(post.pk,))},
         )
+        # return HttpResponse(
+        #     status=HTTPStatus.CREATED,
+        #     headers={"Location": reverse("api_post_detail", args=(post.pk,))},
+        # )
 
-    return HttpResponseNotAllowed(["GET", "POST"])
+    # return HttpResponseNotAllowed(["GET", "POST"])
 
 
 @csrf_exempt
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+@api_view(["GET", "PUT", "DELETE"])
+def post_detail(request, pk, format=None):
+    # post = get_object_or_404(Post, pk=pk)
+    try: 
+      post = Post.objects.get(pk=pk)
+    except Post.DoesNotExist:
+      return Response(status=HTTPStatus.NO_FOUND)
 
     if request.method == "GET":
-        return JsonResponse(PostSerializer(post).data)
+        return Response(PostSerializer(post).data)
     elif request.method == "PUT":
-        post_data = json.loads(request.body)
-        serializer = PostSerializer(post, data=post_data)
+        # post_data = json.loads(request.body)
+        serializer = PostSerializer(post, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return HttpResponse(status=HTTPStatus.NO_CONTENT)
+        return Response(status=HTTPStatus.NO_CONTENT)
     elif request.method == "DELETE":
         post.delete()
-        return HttpResponse(status=HTTPStatus.NO_CONTENT)
+        return Response(status=HTTPStatus.NO_CONTENT)
 
-    return HttpResponseNotAllowed(["GET", "PUT", "DELETE"])
+    # return HttpResponseNotAllowed(["GET", "PUT", "DELETE"])
