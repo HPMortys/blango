@@ -1,12 +1,18 @@
 from rest_framework import serializers
 from django.utils.text import slugify
 
-from blog.models import Post
+from blango_auth.models import User
+from blog.models import Post, Tag
 
 
 class PostSerializer(serializers.ModelSerializer):
-  slug = serializers.SlugField(required=False)
-  autogenerate_slug = serializers.BooleanField(required=False, write_only=True, default=False)
+  tags = serializers.SlugRelatedField(
+      slug_field="value", many=True, queryset=Tag.objects.all()
+  )
+
+  author = serializers.HyperlinkedRelatedField(
+      queryset=User.objects.all(), view_name="api_user_detail", lookup_field="email"
+  )
 
   class Meta:
     model = Post
@@ -23,3 +29,9 @@ class PostSerializer(serializers.ModelSerializer):
         raise serializers.ValidationError("slug is required")
       del data["autogenerate_slug"]
       return data 
+
+
+class UserSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ["first_name", "last_name", "email"]
