@@ -64,6 +64,7 @@ class Dev(Configuration):
         "allauth.account", 
         "allauth.socialaccount", 
         "allauth.socialaccount.providers.google",
+        'drf_yasg',
     ]
 
     SITE_ID = 1
@@ -225,6 +226,14 @@ class Dev(Configuration):
         "default": {
             "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
             "LOCATION": "unique-snowflake",
+        }
+    }
+
+
+    SWAGGER_SETTINGS = {
+        "SECURITY_DEFINITIONS": {
+            "Token": {"type": "apiKey", "name": "Authorization", "in": "header"},
+            "Basic": {"type": "basic"},
         }
     }
 
